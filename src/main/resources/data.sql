@@ -27,9 +27,10 @@ CREATE TABLE IF NOT EXISTS books (
 
 
 CREATE TABLE IF NOT EXISTS transactions (
+    id BIGSERIAL PRIMARY KEY NOT NULL,
     member_id BIGINT NOT NULL,
     book_id BIGINT NOT NULL,
-    borrow_date TIMESTAMP with time zone NULL,
+    borrow_date TIMESTAMP with time zone NOT NULL DEFAULT now(),
     due_date TIMESTAMP with time zone NULL,
     return_date TIMESTAMP with time zone NULL,
 
@@ -39,7 +40,7 @@ CREATE TABLE IF NOT EXISTS transactions (
     CONSTRAINT "fk_transactions->books" FOREIGN KEY (book_id)
     REFERENCES books (id) ON UPDATE CASCADE ON DELETE CASCADE,
 
-    CONSTRAINT pk_transactions PRIMARY KEY (member_id, book_id)
+    CONSTRAINT pk_transactions PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS fines (

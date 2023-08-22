@@ -1,15 +1,21 @@
 package com.example.demoex.model;
 
 import com.example.demoex.model.enums.GenreType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
+import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -40,6 +46,11 @@ public final class Books {
     @Nullable
     @Column(name = "publish_year")
     private LocalDateTime publishYear;
+
+    @JsonIgnore
+    @OneToMany(fetch = LAZY)
+    @JoinColumn(name = "book_id", insertable = false, updatable = false)
+    private List<Transactions> transactions;
 
     public Long getId() {
         return id;
@@ -108,5 +119,17 @@ public final class Books {
 
     public void setPublishYear(@Nullable LocalDateTime publishYear) {
         this.publishYear = publishYear;
+    }
+
+    public boolean checkAvailableAndTotalCopies() {
+        if (this.getAvailableCopies() != null && this.getTotalCopies() != null) {
+            return this.getAvailableCopies() < this.getTotalCopies();
+        } else return false;
+    }
+
+    public void setCopies() {
+        if (this.getAvailableCopies() != null && this.getTotalCopies() == null) {
+            this.setTotalCopies(this.getAvailableCopies());
+        }
     }
 }

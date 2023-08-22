@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -23,10 +25,26 @@ public class BookController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Books getBook(@PathVariable(value = "bookId") Long bookId) {
 
-        if (!booksService.bookExists(bookId)) {
+        if (booksService.bookExists(bookId)) {
             throw new ResponseStatusException(NOT_FOUND, "Book is not found.");
         }
 
         return booksService.getBook(bookId);
+    }
+
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Books editBook(@PathVariable(value = "bookId") Long bookId,
+                          @RequestBody Books book) {
+
+        checkForTheBook(bookId);
+        booksService.verifyBook(book);
+
+        return booksService.editBook(book, bookId);
+    }
+
+    private void checkForTheBook(Long bookId) {
+        if (booksService.bookExists(bookId)) {
+            throw new ResponseStatusException(NOT_FOUND, "Book is not found.");
+        }
     }
 }

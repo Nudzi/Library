@@ -1,5 +1,6 @@
 package com.example.demoex.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.lang.Nullable;
 
@@ -7,9 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -18,7 +24,7 @@ public final class Members {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    private Long id;
 
     @Nullable
     @Column(name = "first_name")
@@ -44,4 +50,9 @@ public final class Members {
     @Nullable
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
+
+    @JsonIgnore
+    @OneToMany(fetch = LAZY)
+    @JoinColumn(name = "member_id", insertable = false, updatable = false)
+    private List<Transactions> transactions;
 }
