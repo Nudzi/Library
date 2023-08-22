@@ -24,18 +24,13 @@ public class BookController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Books getBook(@PathVariable(value = "bookId") Long bookId) {
-
-        if (booksService.bookExists(bookId)) {
-            throw new ResponseStatusException(NOT_FOUND, "Book is not found.");
-        }
-
+        checkForTheBook(bookId);
         return booksService.getBook(bookId);
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public Books editBook(@PathVariable(value = "bookId") Long bookId,
                           @RequestBody Books book) {
-
         checkForTheBook(bookId);
         booksService.verifyBook(book);
 
