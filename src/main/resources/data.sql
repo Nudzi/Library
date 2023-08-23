@@ -12,6 +12,15 @@ CREATE TABLE IF NOT EXISTS public.members
     CONSTRAINT pk_members PRIMARY KEY (id)
 );
 
+CREATE TABLE IF NOT EXISTS member_role (
+    member_id BIGINT NOT NULL,
+    CONSTRAINT "fk_member_role->members" FOREIGN KEY (member_id)
+    REFERENCES members (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    role VARCHAR(100) NOT NULL,
+
+    CONSTRAINT pk_member_role PRIMARY KEY (member_id, role)
+);
+
 CREATE TABLE IF NOT EXISTS books (
     id BIGSERIAL PRIMARY KEY NOT NULL,
     title VARCHAR (100) NOT NULL,

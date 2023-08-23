@@ -55,4 +55,80 @@ public final class Members {
     @OneToMany(fetch = LAZY)
     @JoinColumn(name = "member_id", insertable = false, updatable = false)
     private List<Transactions> transactions;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Nullable
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(@Nullable String firstName) {
+        this.firstName = firstName;
+    }
+
+    @Nullable
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(@Nullable String lastName) {
+        this.lastName = lastName;
+    }
+
+    @Nullable
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(@Nullable String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public Integer getContactNumber() {
+        return contactNumber;
+    }
+
+    public void setContactNumber(Integer contactNumber) {
+        this.contactNumber = contactNumber;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    @Nullable
+    public LocalDateTime getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(@Nullable LocalDateTime updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
+    public List<Transactions> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transactions> transactions) {
+        this.transactions = transactions;
+    }
 }
